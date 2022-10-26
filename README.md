@@ -1,11 +1,14 @@
 # face-injector-v2
-update face injector by KANKOSHEV
+if you want to see the original readme, you can refer to the original one [here](https://github.com/KANKOSHEV/face-injector-v2/blob/main/README.md)
 
-You should understand that sooner or later you will be banned for this project. this is an example, you can improve the code, replace the driver, replace the mapper, etc.
+### what this repo is
+this is simply just a "updated" version of face injector that uses a newer version of kdu and forces a provider\
+in testing, this works on the latest version of windows 10 and 11 (also tested insider builds)
 
-games wnd class names:
+### what this repo isn't
+* **undetected/less detectable face injector** (the mapper driver still retains the same driver name)
+* **a newer version of the injector** (the code is still entirely the same)
 
-Valorant - UnrealWindow 
-Apex Legends - Respawn001
-Warface - CryENGINE
+### important note
+it seems like the gputweak 2 driver is a little odd, so the first time it tries to init the driver it could potentially fail. just run it again and it should work fine.
 
