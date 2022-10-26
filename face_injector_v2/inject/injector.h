@@ -60,7 +60,7 @@ uintptr_t call_remote_load_library(DWORD thread_id, LPCSTR dll_name)
 
 	/////////////////////////////////
 	driver().write_memory_ex(alloc_shell_code, alloc_local, shell_size);
-	HHOOK h_hook = SetWindowsHookEx(WH_GETMESSAGE, (HOOKPROC)alloc_shell_code, nt_dll, thread_id);
+	HHOOK h_hook = SetWindowsHookEx(WH_MOUSE, (HOOKPROC)alloc_shell_code, nt_dll, thread_id);
 	/////////////////////////////////
 
 	/////////////////////////////////
@@ -106,7 +106,7 @@ void call_dll_main(DWORD thread_id, PVOID dll_base, PIMAGE_NT_HEADERS nt_header,
 
 	/////////////////////////////////
 	driver().write_memory_ex(alloc_shell_code, alloc_local, shell_size);
-	HHOOK h_hook = SetWindowsHookEx(WH_GETMESSAGE, (HOOKPROC)alloc_shell_code, nt_dll, thread_id);
+	HHOOK h_hook = SetWindowsHookEx(WH_MOUSE, (HOOKPROC)alloc_shell_code, nt_dll, thread_id);
 	/////////////////////////////////
 
 	/////////////////////////////////
