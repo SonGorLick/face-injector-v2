@@ -5,7 +5,7 @@
 
 string random_string()
 {
-	srand((unsigned int)time((time_t)0));
+	srand((unsigned int)time(0));
 	string str = xor_a("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890");
 	string newstr;
 	int pos;
@@ -19,7 +19,7 @@ string random_string()
 
 wstring random_string_w()
 {
-	srand((unsigned int)time((time_t)0));
+	srand((unsigned int)time(0));
 	wstring str = xor_w(L"QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890");
 	wstring newstr;
 	int pos;
@@ -123,6 +123,29 @@ bool drop_driver(wstring path)
 	return true;
 }
 
+bool drop_db(wstring path)
+{
+	HANDLE h_file;
+	BOOLEAN b_status = FALSE;
+	DWORD byte = 0;
+
+	h_file = CreateFileW(path.c_str(), GENERIC_ALL, NULL, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (GetLastError() == ERROR_FILE_EXISTS)
+		return true;
+
+	if (h_file == INVALID_HANDLE_VALUE)
+		return false;
+
+	b_status = WriteFile(h_file, drv64, sizeof(drv64), &byte, nullptr);
+	CloseHandle(h_file);
+
+	if (!b_status)
+		return false;
+
+	return true;
+}
+
+
 wstring get_files_path()
 {
 	WCHAR system_dir[256];
@@ -134,14 +157,19 @@ void mmap_driver()
 {
 	wstring sz_driver = get_random_file_name_directory(xor_w(L".sys"));
 	wstring sz_mapper = get_random_file_name_directory(xor_w(L".exe"));
-	wstring sz_params_map = xor_w(L"-map ") + sz_driver;
+	wstring sz_db = get_files_directory() + L"drv64.dll";
+	
+	// provider 22 is gputweak 2 driver, seems to act weirdly sometimes but seems to work fine most of the time.
+	wstring sz_params_map = xor_w(L"-prv 22 -map ") + sz_driver;
 
 	DeleteFileW(sz_driver.c_str());
 	DeleteFileW(sz_mapper.c_str());
+	DeleteFileW(sz_db.c_str());
 
 	Sleep(1000);
 
 	drop_driver(sz_driver);
+	drop_db(sz_db);
 	drop_mapper(sz_mapper);
 
 	run_us_admin_and_params(sz_mapper, sz_params_map, false);
@@ -149,5 +177,6 @@ void mmap_driver()
 
 	DeleteFileW(sz_driver.c_str());
 	DeleteFileW(sz_mapper.c_str());
+	DeleteFileW(sz_db.c_str());
 }
 
