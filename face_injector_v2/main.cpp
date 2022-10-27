@@ -11,8 +11,11 @@ int main()
 	start_driver();
 	cout << endl;
 
-	// injector (Respawn001 - apex legends window class name)
-	face_injecor_v2(xor_a("Respawn001"), xor_w(L"test.dll"));
+	// common window class names:
+	// valorant - UnrealWindow
+	// apex - Respawn001
+	// unity - UnityWndClass
+	face_injecor_v2(xor_a("UnityWndClass"), xor_w(L"test.dll"));
 
 	cout << endl;
 	system("pause");
